@@ -9,11 +9,43 @@ const Login = () => {
   const firestore = getFirestore(firebaseApp);
   const auth = getAuth(firebaseApp);
 
+  const registerUser = async(email, password, role) => {
+    console.log("registerUser", email, password, role);
+    const result = await createUserWithEmailAndPassword(
+      auth, 
+      email, 
+      password
+    ).then((userCredentials) => {
+      console.log("userCredentials", userCredentials);
+      return userCredentials;
+    });
+    console.log("result", result);
+
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("submit")
+    const email = e.preventDefault.email.value;
+    const password = e.preventDefault.password.value;
+    const role = e.preventDefault.role.value;
+    console.log("email, password, role", email, password, role);
+
+    if(isRegistered) {
+      //register
+      registerUser(email, password, role);
+    } else {
+      //login
+      signInWithEmailAndPassword(auth, email, password);
+    }
+
+  };
+
   return (
     <div>
       <h1>Login Page</h1>
       <h2>{isRegistered ? "Registrate" : "Inicia sesion"}</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <label>
           Email:
           <input type="text" placeholder="Email" id="email" />
@@ -29,7 +61,7 @@ const Login = () => {
             <option value="user">User</option>
           </select>
         </label>
-        <button type="submit">{isRegistered ? "Registrarme" : "Inicia sesion"}</button>
+        <button onClick={ () =>   } type="submit">{isRegistered ? "Registrarme" : "Inicia sesion"}</button>
       </form>
     </div>
   );
