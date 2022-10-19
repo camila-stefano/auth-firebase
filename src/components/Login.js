@@ -1,7 +1,8 @@
 import { useState } from "react";
 import firebaseApp from "../firebase/firebase";
-import { getFirestore, doc } from "firebase/firestore";
+import { getFirestore, doc,  } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import doc from "../firebase/firebase";
 
 const Login = () => {
   const [isRegistered, setIsRegistered] = useState(false);
@@ -20,7 +21,13 @@ const Login = () => {
       return userCredentials;
     });
     console.log("result", result);
-
+    console.log("result.user.uid", result.user.uid);
+    //guardar en la db
+    
+    const userRef = doc(firestore, `users/${result.user.uid}`)//apunto a la coleccion de db, en este caso users de forma dinamica
+    console.log("userRef", userRef);
+    //setDoc(userRef, {email: email, role: role}) ecscript viejo
+    setDoc(userRef)
   };
 
   const handleSubmit = (e) => {
